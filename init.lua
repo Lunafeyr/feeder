@@ -29,10 +29,10 @@ srv:listen(8266,function(conn)
     print(payload)
     
     function ctrlpower()
-    pwm.setup(outpin,50,71) --setapiranje na poziciju 0
+    pwm.setup(outpin,50,71) --setup at position 0°
     dotaz=string.sub(payload,kdesi[2]+1,#payload)
-    if dotaz =="ZATVORI" then pwm.setduty(outpin,27) return end--minus 90 u lijevo
-    if dotaz =="OTVORI" then pwm.setduty(outpin,123) return end --plus90 u desno
+    if dotaz =="CLOSE" then pwm.setduty(outpin,27) return end --minus 90 on the left
+    if dotaz =="OPEN" then pwm.setduty(outpin,123) return end --plus 90 on the right
     pwm.start(outpin)
     end
     
@@ -48,14 +48,14 @@ srv:listen(8266,function(conn)
     conn:send('<html>\n')
     conn:send('<head><meta  content="text/html; charset=utf-8">\n')
     conn:send('<title>ESP8266</title></head>\n')
-    conn:send('<body><h1 style="font-family:verdana;">Kikina hranilica!</h1>\n')
-    conn:send('<h3 style="font-family:courier;"> Za testiranje</h3>\n')
-    conn:send('<h3 style="font-family:courier;"> Dodatni gumbi su priloženi za puštanje i zaustavljanje hrane kroz cijev.</h3>\n')
+    conn:send('<body><h1 style="font-family:verdana;">Kiki feeder!</h1>\n')
+    conn:send('<h3 style="font-family:courier;"> For testing purposes </h3>\n')
+    conn:send('<h3 style="font-family:courier;"> Additional buttons are for food coming out from the tube.</h3>\n')
     conn:send('<form action="" method="POST">\n')
-    conn:send('<input type="submit" name="pwmi" value="ZATVORI"> Zaustavi hranu kroz cijev.<br><br>\n')
-    conn:send('<input type="submit" name="pwmi" value="OTVORI"> <form style="font-family:courier;"> Pustiti hranu kroz cijev. </form><br><br>\n')
+    conn:send('<input type="submit" name="pwmi" value="CLOSE"><br><br>\n')
+    conn:send('<input type="submit" name="pwmi" value="OPEN"> <form style="font-family:courier;"><br><br>\n')
     conn:send('<IMG SRC="https://goo.gl/rjEGub" WIDTH="400" HEIGHT="500" BORDER="1"><br><br>\n')
-    conn:send('<footer style="font-family:courier;">Ema Zubac, 29.kolovoza 2017</footer>')
+    conn:send('<footer style="font-family:courier;">Emma 1st of September 2017</footer>')
     conn:send('</body></html>\n')
     conn:on("sent",function(conn) conn:close() end)
     end)
